@@ -1,0 +1,17 @@
+.card {
+    display: flex;
+    width: 400px;
+    height: 14  0px;
+    border: solid black;
+    border-radius: 12px;
+    flex-direction: column;
+    padding: 15px;
+    justify-content: space-between;
+    text-decoration: none;
+    color: black;
+}
+
+.card__footer {
+    display: flex;
+    justify-content: space-between;
+}
