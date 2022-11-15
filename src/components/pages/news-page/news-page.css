@@ -51,7 +51,8 @@
 
 .news__button-back {
     position: fixed;
-    left: 0; top: 0; bottom: 0px;
+    top: 0; left: 0;
+    height: calc(100% - 70px);
     border: none;
     outline: none;
     background-color: #edf2fb;
@@ -80,6 +81,18 @@
 @media (max-width: 720px) {
     .news {
         width: 100%;
+    }
+    .news__button-back {
+        position: absolute;
+        left: 20px;
+        top: 70px;
+        height: 5vh;
+        width: 7vw;
+        min-width: 40px;
+        border-radius: 12px;
+        opacity: 1;
+        background-color: #4a4e69;
+        color: white;
     }
 }
 

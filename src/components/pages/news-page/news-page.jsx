@@ -73,7 +73,7 @@ export const NewsPage = () => {
             <ButtonUpdateData setIsLoading={setIsLoading} title={'comments'} />
             <button className='news__button-back' onClick={() => window.history.back()}>
                 <FontAwesomeIcon icon={faArrowLeft} />
-                Go back
+                { window.innerWidth > 720 ? 'Go back' : '' }
             </button>
             <header className='news__header'>
                 {isLoading && <Loader />}

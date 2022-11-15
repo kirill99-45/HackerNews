@@ -8,6 +8,7 @@
     border: none;
     cursor: pointer;
     background: #4a4e69;
+    z-index: 1;
 }
 
 .button-update:hover::before {
