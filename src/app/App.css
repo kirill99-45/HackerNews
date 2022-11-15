@@ -37,3 +37,9 @@
     font-weight: bold;
     z-index: 1;
 }
+
+@media (max-width: 680px) {
+    .main {
+        padding: 70px 20px;
+    }
+}

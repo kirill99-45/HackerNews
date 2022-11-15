@@ -26,6 +26,7 @@
     text-decoration: none;
     font-weight: bold;
     font-size: 1.17em;
+    color: #4a4e69;
 }
 
 .news__link:hover {
@@ -69,3 +70,16 @@
     opacity: 0.6;
     transition: 0.2s;
 }
+
+@media (max-width: 1000px) {
+    .news__main-info {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 720px) {
+    .news {
+        width: 100%;
+    }
+}
+

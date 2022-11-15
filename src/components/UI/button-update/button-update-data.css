@@ -53,3 +53,9 @@
 .button-update__icon {
     color: white;
 }
+
+@media (max-width: 680px) {
+    .button-update {
+        right: 20px; 
+    }
+}

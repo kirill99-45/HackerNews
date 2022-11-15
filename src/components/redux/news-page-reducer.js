@@ -3,6 +3,7 @@ import { UPDATE_COMMENTS, TOGGLE_COMMENTS } from "./types"
 const initState = {
     commentTree: {},
     comments: 'One second...',
+    TIME_TO_UPDATE : 60,
 }
 
 
@@ -11,8 +12,9 @@ export const NewsPageReducer = (state = initState, action) => {
     switch (action.type) {
         case UPDATE_COMMENTS: {
             return {
+                ...state,
                 commentTree: action.payload.tree,
-                comments : action.payload.count
+                comments : action.payload.count,
             }
         }
         case TOGGLE_COMMENTS : {
