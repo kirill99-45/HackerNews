@@ -2,19 +2,17 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useFetch } from '../../helpers/useFetch';
+import { toggleComments, updateComments } from '../../redux/actions';
 
-import { Loader } from '../../UI/loader/loader';
-import { ButtonUpdateData } from '../../UI/button-update/button-update-data';
 import { NewsPageCommentLoaded } from './page-state/news-page-comment-loaded';
 import { NewsPageCommentPreload } from './page-state/news-page-comment-preload';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMessage, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-
 import { getCommentsTree, getCountOfComment } from './new-page__model';
 
+import { Loader } from '../../UI/loader/loader';
+
+import { IconError } from '../../UI/icon';
 import './news-page.css';
-import { toggleComments, updateComments } from '../../redux/actions';
 
 
 export const NewsPage = () => {
@@ -70,23 +68,21 @@ export const NewsPage = () => {
 
     return (
         <div className='news'>
-            <ButtonUpdateData setIsLoading={setIsLoading} title={'comments'} />
-            <button className='news__button-back' onClick={() => window.history.back()}>
-                <FontAwesomeIcon icon={faArrowLeft} />
-                { window.innerWidth > 720 ? 'Go back' : '' }
-            </button>
-            <header className='news__header'>
-                {isLoading && <Loader />}
-                <h1>{data?.title}</h1>
-                <div className='news__main-info'>
-                    <a href={data?.url} target='_blank' className='news__link'>Link to the news</a>
-                    <h3><FontAwesomeIcon icon={faMessage} /> {comments}</h3>
-                </div>
-                <h3>By: {data?.by}</h3>
-            </header>
-            {!isLoading ?
-                <NewsPageCommentLoaded comments={comments} commentTree={commentTree} handleClick={handleClick} /> :
-                <NewsPageCommentPreload />
+            {isLoading && <Loader />}
+            {isLoading ?
+                <NewsPageCommentPreload /> :
+                !data.error ?
+                <NewsPageCommentLoaded 
+                    data={data}
+                    comments={comments} 
+                    commentTree={commentTree} 
+                    handleClick={handleClick} 
+                    setIsLoading={setIsLoading}
+                /> :
+                <>
+                    <h1 className='news__error-title'>News page</h1>
+                    <img src={IconError} className='error__icon'/>
+                </>
             }
         </div>
     )

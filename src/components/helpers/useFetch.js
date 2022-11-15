@@ -54,7 +54,6 @@ export const useFetch = (URL) => {
                         getItems(resp.data).then(resp => {
                             setIsLoading(false)
                             setData(resp)
-                            // setTimerState(TIME_TO_UPDATE)
                         })
                     } else {
                         setData(resp.data)
@@ -73,6 +72,10 @@ export const useFetch = (URL) => {
 
                         }
                     }
+                })
+                .catch(error => {
+                    setIsLoading(false)
+                    setData({ error : error })
                 })
         }
     }, [isLoading])

@@ -4,6 +4,7 @@ import { useFetch } from '../../helpers/useFetch'
 
 import { Card } from './card/card';
 import { Loader } from '../../UI/loader/loader'
+import { IconError } from '../../UI/icon';
 
 export const HomePage = () => {
 
@@ -18,32 +19,32 @@ export const HomePage = () => {
   const [isLoading, setIsLoading, data] = useFetch(URL, COUNT_OF_NEWS)
 
   useEffect(() => {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0)
   }, [])
 
-    useEffect(() => {
-      if (timerState > 0 && !isLoading) {
-        const shouldUpdate = setTimeout(() => {
-          setTimerState(prev => prev - 1)
-        }, 1000)
-        return () => clearTimeout(shouldUpdate)
-      } else {
-        setIsLoading(true)
-         setTimerState(TIME_TO_UPDATE)
-      }
-    }, [timerState, isLoading])
+  useEffect(() => {
+    if (timerState > 0 && !isLoading) {
+      const shouldUpdate = setTimeout(() => {
+        setTimerState(prev => prev - 1)
+      }, 1000)
+      return () => clearTimeout(shouldUpdate)
+    } else {
+      setIsLoading(true)
+      setTimerState(TIME_TO_UPDATE)
+    }
+  }, [timerState, isLoading])
 
 
   return (
     <>
       {isLoading && <Loader />}
       <h1 className='home-page__title'>Home page</h1>
-      <ButtonUpdateData setIsLoading={setIsLoading}/>
+      <ButtonUpdateData setIsLoading={setIsLoading} />
       <div className='cards'>
         {
-          !isLoading && data?.map((news, index) => {
+          !isLoading ? !data.error ? data?.map((news, index) => {
             return <Card data={news} key={index} /> // Использую индекс массива в связи с тем, что ряд ID элементов совпадал между собой
-          })
+          }) : <img src={IconError} className='error__icon'/> : ''
         }
       </div>
     </>
