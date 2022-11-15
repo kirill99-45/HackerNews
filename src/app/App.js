@@ -7,15 +7,15 @@ import './App.css';
 
 export const App = () => {
   return (
-    <>
-      <header>Это шапка</header>
+    <div className='wrapper'>
+      <header className='header' />
       <main>
         <div className='main'>
           <Route exact path='/' component={HomePage} />
           <Route path='/new/:id' component={NewsPage} />
         </div>
       </main>
-      <footer>Это подвал</footer>
-    </>
+      <footer className='footer' />
+    </div>
   )
 }

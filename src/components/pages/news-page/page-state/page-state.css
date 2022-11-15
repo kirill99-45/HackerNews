@@ -1,0 +1,14 @@
+.comment__preload {
+    height: 80px;
+    margin-top: 30px;
+    border-radius: 12px;
+    background-color: #4a4e69;
+}
+
+.comment__title-preload {
+    display: inline-block;
+    height: 40px;
+    width: 300px;
+    border-radius: 12px;
+    background-color: #4a4e69;
+}

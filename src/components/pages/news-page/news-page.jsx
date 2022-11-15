@@ -1,45 +1,76 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import axios from 'axios';
+import { useFetch } from '../../helpers/useFetch';
+
+import { Loader } from '../../UI/loader/loader';
+import { ButtonUpdateData } from '../../UI/button-update/button-update-data';
+import { NewsPageCommentLoaded } from './page-state/news-page-comment-loaded';
+import { NewsPageCommentPreload } from './page-state/news-page-comment-preload';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMessage, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+
+import { getCommentsTree, getCountOfComment } from './new-page__model';
+
+import './news-page.css';
+import { toggleComments, updateComments } from '../../redux/actions';
+
 
 export const NewsPage = () => {
 
     const id = window.location.pathname.split('/').filter(item => !isNaN(+item)).join('')
 
-    const [comments, setComments] = useState([])
-    const [news, setNews] = useState(null)
+    const URL = `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`
 
-    const getItem = (element) => {
-        const resp = axios.get(`https://hacker-news.firebaseio.com/v0/item/${element}.json?print=pretty`).then(resp => resp)
-        return resp
+    const [isLoading, setIsLoading, data] = useFetch(URL)
+
+    const { comments, commentTree } = useSelector(state => {
+        return state.NewsPageReducer
+    })
+
+    const dispatch = useDispatch()
+    
+    const handleClick = (event) => {
+        const node = +(event.currentTarget.getAttribute('data-id'))
+        dispatch(toggleComments(commentTree, node))
     }
-
-    const someFunc = async (item) => {
-        return await getItem(item).then(resp => {
-            return resp.data
-        })
-    }
-
-    const getItems = async (arr) => {
-        const promises = arr.map(async (item) => {
-            return await someFunc(item)
-        })
-
-        const date = await Promise.all(promises)
-        return date
-    }
-
+    
     useEffect(() => {
-        axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`)
-            .then(resp => {
-                setNews(resp.data)
-                getItems(resp.data.kids).then(resp => {
-                    setComments(resp)
-                })
-            })
-    }, [])
+        window.scrollTo(0, 0)
+        if (!isLoading && data?.kids) {
 
-    return <h1 >Это страница новости {id}</h1>
+            const commentsCount = data.kids?.reduce((acc, item) => {
+                return acc = getCountOfComment(item, acc)
+            }, 0)
+
+            dispatch(updateComments(getCommentsTree(data), commentsCount))
+
+        } else if (!data?.kids) {
+            dispatch(updateComments(getCommentsTree(data), 0))
+        }
+    }, [isLoading, data])
+
+    return (
+        <div className='news'>
+            <ButtonUpdateData setIsLoading={setIsLoading} title={'comments'}/>
+            <button className='news__button-back' onClick={() => window.history.back()}>
+               <FontAwesomeIcon icon={faArrowLeft} /> 
+                Go back
+            </button>
+            <header className='news__header'>
+                {isLoading && <Loader />}
+                <h1>{data?.title}</h1>
+                <div className='news__main-info'>
+                    <a href={data?.url} target='_blank' className='news__link'>Link to the news</a>
+                    <h3>A count all the comments: <FontAwesomeIcon icon={faMessage} /> {comments}</h3>
+                </div>
+                <h3>By: {data?.by}</h3>
+            </header>
+            { !isLoading ?
+                <NewsPageCommentLoaded comments={comments} commentTree={commentTree} handleClick={handleClick} /> :
+                <NewsPageCommentPreload /> 
+            }
+        </div>
+    )
 }
-
-// onClick={() => getComments()}

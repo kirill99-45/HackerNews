@@ -1,0 +1,55 @@
+.button-update {
+    position: fixed;
+    bottom: 75px;
+    right: 50px;
+    padding: 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    background: #4a4e69;
+}
+
+.button-update:hover::before {
+    content:attr(data-title);
+    position: absolute;
+    white-space: nowrap;
+    left: -130%;
+    min-width: 122px;
+    top: 0; bottom: 0;
+    padding: 6px 4px;
+    transform: translateX(-50%);
+    background-color: #4a4e69;
+    border-radius: 6px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 1;
+}
+
+.button-update:hover::after {
+    content : '';
+    width: 10px;
+    height: 10px;
+    background-color: #4a4e69;
+    position: absolute;
+    left: -35%;
+    top: 50%;
+    transform: rotate(45deg) translateY(-50%);
+}
+
+.button-update:active {
+    transform: scale(98%);
+}
+
+.button-update:focus {
+    box-shadow: 0px 0px 4px 2px #4caf50;
+    outline: none;
+    border: none;
+}
+
+.button-update__icon {
+    color: white;
+}
